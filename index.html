@@ -97,7 +97,7 @@
   #confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
 
   /* ---------- 타이머 ---------- */
-  .timer-card{display:flex;flex-direction:column;align-items:center;gap:18px;padding:20px 20px 24px}
+  .timer-card{display:flex;flex-direction:column;align-items:center;gap:16px;padding:18px 20px 20px}
   .mode{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px;background:#f9fafb}
   .mode button{border:none;background:transparent;padding:8px 20px;border-radius:999px;font-size:15px;cursor:pointer;color:var(--sub);font-weight:600}
   .mode button.active{background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.12)}
@@ -127,7 +127,7 @@
   .timer-opts input{accent-color:var(--accent);width:16px;height:16px}
 
   /* ---------- 추가 시간 ---------- */
-  .extra-card{margin-top:20px}
+  .extra-card{margin-top:12px}
   .extra-card h2{font-size:18px;margin:0 0 14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .extra-card h2 span{font-size:13px;color:var(--sub);font-weight:500}
   .extra-form{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -277,15 +277,9 @@
         <button class="btn big" id="tReset" type="button">↺ 초기화</button>
       </div>
 
-      <div class="timer-opts">
-        <label><input type="checkbox" id="tAlarm" checked> 종료 알람</label>
-        <label><input type="checkbox" id="tTick"> 마지막 10초 소리</label>
-      </div>
-
       <div class="laps" id="laps" style="display:none">
         <div class="lap-wrap"><table id="lapTable"></table></div>
       </div>
-      <div class="hint">스페이스바: 시작/일시정지 · R: 초기화</div>
     </section>
 
     <!-- 추가 시간(학생별) -->
@@ -654,6 +648,7 @@ const Roulette = (function(){
 /* =========================================================
    2) 타이머 / 스톱워치
    ========================================================= */
+const ALARM_ON = true;   // 종료 알람(항상 켬)
 const Timer = (function(){
   const disp = $('#tdisplay'), bar = $('#progressBar'), progress = $('#progress');
   const setter = $('#setter'), presets = $('#presets');
@@ -713,7 +708,6 @@ const Timer = (function(){
     if(mode === 'down'){
       const ms = Math.max(0, remain - (performance.now() - startAt));
       const sec = Math.ceil(ms/1000);
-      if($('#tTick').checked && sec <= 10 && sec > 0 && sec !== lastTickSec){ lastTickSec = sec; beep(880,0.08,'sine',0.15); }
       if(ms <= 0){ finish(); return; }
     }
     render();
@@ -759,7 +753,7 @@ const Timer = (function(){
       setter.style.display = ''; presets.style.display = '';
     }
     render();
-    if($('#tAlarm').checked){
+    if(ALARM_ON){
       let count = 0;
       const ring = () => { [1046,1318].forEach((f,i) => setTimeout(() => beep(f,0.25,'square',0.18), i*130)); };
       ring();
@@ -789,8 +783,6 @@ const Timer = (function(){
     presets.style.display = isDown ? '' : 'none';
     progress.style.visibility = isDown ? '' : 'hidden';
     lapBtn.style.display = isDown ? 'none' : '';
-    $('#tTick').parentElement.style.display = isDown ? '' : 'none';
-    $('#tAlarm').parentElement.style.display = isDown ? '' : 'none';
     $('#extraCard').style.display = isDown ? '' : 'none';
     render();
   }
@@ -921,7 +913,7 @@ const Extra = (function(){
         leftEl.textContent = fmt(left);
       }
     });
-    if(ringNow && $('#tAlarm').checked){ [988,1318].forEach((f,i) => setTimeout(() => beep(f,0.22,'square',0.16), i*140)); }
+    if(ringNow && ALARM_ON){ [988,1318].forEach((f,i) => setTimeout(() => beep(f,0.22,'square',0.16), i*140)); }
     if(isDone && !anyLeft()) Timer.overtimeEnded();
   }
   function anyLeft(){ return list.some(x => leftOf(x) > 0); }
