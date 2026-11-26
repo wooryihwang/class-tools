@@ -171,6 +171,65 @@
   body.focus .ex-left{font-size:48px}
   body.focus .ex-name{font-size:30px}
 
+  /* ---------- 학생 뽑기 ---------- */
+  .picker{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+  @media (max-width:900px){.picker{grid-template-columns:1fr}}
+  .pk-main{display:flex;flex-direction:column;gap:16px}
+  .pk-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  #pkClass{font-size:20px;font-weight:800;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-family:inherit;color:var(--text)}
+  .pk-stat{font-size:15px;color:var(--sub)}
+  .pk-stat b{color:var(--accent-dark);font-size:18px}
+  .pk-result{min-height:280px;border-radius:14px;background:#f9fafb;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+  .pk-ph{color:var(--sub);font-size:18px;line-height:1.6}
+  .pk-one .no{font-size:clamp(72px,13vw,170px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:2px}
+  .pk-one .sub{font-size:22px;color:var(--sub);margin-top:10px;font-weight:600}
+  .pk-one.flick .no{color:#c4c8cf}
+  .pk-list{width:100%;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;counter-reset:pk}
+  .pk-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-align:left}
+  .pk-item .ord{flex:none;width:34px;height:34px;border-radius:50%;background:var(--text);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .pk-item .no{font-size:40px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+  .pk-item .sub{font-size:14px;color:var(--sub);margin-left:auto;white-space:nowrap}
+  .pk-msg{min-height:20px;font-size:15px;color:#b45309;text-align:center}
+  .pk-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center}
+  .pk-multi{display:flex;align-items:center;gap:6px}
+  .pk-multi input{width:76px;padding:12px 6px;font-size:22px;text-align:center;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-weight:700}
+  .pk-multi input:focus{outline:2px solid var(--accent);border-color:transparent}
+  .pk-multi span{font-size:17px;color:var(--sub);margin-right:4px}
+  .pk-undo{text-align:center}
+  .pk-undo button{border:none;background:none;color:var(--sub);font-size:14px;cursor:pointer;padding:4px 8px;border-radius:6px}
+  .pk-undo button:hover{background:#f3f4f6}
+  .pk-undo button:disabled{opacity:.4;cursor:default;background:none}
+  .pk-side h2{font-size:16px;margin:0 0 12px}
+  .pk-side h3{font-size:14px;margin:18px 0 8px;display:flex;justify-content:space-between;align-items:center}
+  .pk-side h3 button{border:none;background:none;color:var(--sub);font-size:12px;cursor:pointer}
+  .pk-new{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px;color:var(--sub)}
+  .pk-new select,.pk-new input{padding:8px 6px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:inherit;text-align:center;color:var(--text);background:#fff}
+  .pk-new input{width:58px}
+  .pk-new .btn{padding:8px 14px;font-size:14px;margin-left:auto}
+  .pk-ex{display:flex;gap:6px}
+  .pk-ex input{flex:1;min-width:0;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit}
+  .pk-ex input:focus,.pk-new input:focus{outline:2px solid var(--accent);border-color:transparent}
+  .pk-ex .btn{padding:8px 14px;font-size:14px}
+  .pk-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--sub);margin:10px 0 8px;align-items:center}
+  .pk-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px;border:1px solid var(--line)}
+  .pk-legend em{font-style:normal;width:100%}
+  .c-remain{background:#fff}.c-picked{background:var(--accent);border-color:var(--accent)!important}.c-excl{background:#e5e7eb}
+  .pk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:5px}
+  .pk-grid button{height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--text);padding:0}
+  .pk-grid button:hover{border-color:var(--text)}
+  .pk-grid button.picked{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pk-grid button.excl{background:#e5e7eb;color:#9ca3af;text-decoration:line-through}
+  .pk-grid button.fresh{box-shadow:0 0 0 3px #fde68a}
+  #pkHist{max-height:190px;overflow:auto;font-size:14px}
+  .pk-day{margin-bottom:8px}
+  .pk-day b{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bottom:4px}
+  .pk-day span{display:inline-block;background:#ecfdf3;color:#05603a;border-radius:6px;padding:2px 7px;margin:0 4px 4px 0;font-variant-numeric:tabular-nums;font-weight:700}
+  .pk-file{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .pk-file .btn{padding:8px 12px;font-size:14px}
+  .pk-file .pk-del{margin-left:auto;color:var(--sub)}
+  body.focus .pk-result{min-height:50vh}
+  body.focus .pk-item .no{font-size:56px}
+
   /* ---------- 현재 시간 ---------- */
   .clock-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px 20px;text-align:center}
   .clock-date{font-size:clamp(18px,3vw,28px);color:var(--sub);font-weight:600}
@@ -202,6 +261,7 @@
     <nav>
       <button data-page="roulette">🎡 원판 돌리기</button>
       <button data-page="timer">⏱ 타이머</button>
+      <button data-page="picker">🎯 학생 뽑기</button>
       <button data-page="clock">🕒 현재 시간</button>
     </nav>
     <button id="fsBtn" type="button" title="큰 화면으로 보기">⛶ 큰 화면</button>
@@ -308,6 +368,61 @@
   </div>
 </main>
 
+<!-- ======================= 학생 뽑기 ======================= -->
+<main class="page" id="page-picker">
+  <div class="wrap picker">
+    <section class="card pk-main">
+      <div class="pk-top">
+        <select id="pkClass" aria-label="반 선택"></select>
+        <span class="pk-stat" id="pkStat"></span>
+      </div>
+      <div class="pk-result" id="pkResult"></div>
+      <div class="pk-msg" id="pkMsg"></div>
+      <div class="pk-actions">
+        <button class="btn big primary" id="pkOne" type="button">🎯 1명 뽑기</button>
+        <div class="pk-multi">
+          <input type="number" id="pkCount" min="1" max="60" value="5" aria-label="뽑을 인원"><span>명</span>
+          <button class="btn big" id="pkMany" type="button">순서대로 뽑기</button>
+        </div>
+      </div>
+      <div class="pk-undo"><button type="button" id="pkUndo">↶ 방금 뽑은 것 취소</button></div>
+    </section>
+
+    <aside class="card pk-side">
+      <h2>반 만들기 · 수정</h2>
+      <div class="pk-new">
+        <select id="pkGrade" aria-label="학년"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><span>학년</span>
+        <input type="number" id="pkCls" min="1" max="99" value="1" aria-label="반"><span>반</span>
+        <input type="number" id="pkLast" min="1" max="99" value="30" aria-label="마지막 번호"><span>번까지</span>
+        <button class="btn primary" id="pkCreate" type="button">저장</button>
+      </div>
+
+      <div id="pkCfg">
+        <h3>빠지는 학생 번호</h3>
+        <div class="pk-ex">
+          <input type="text" id="pkExcl" placeholder="예: 3, 7, 10-12" autocomplete="off">
+          <button class="btn" id="pkExclApply" type="button">적용</button>
+        </div>
+        <div class="pk-legend">
+          <span><i class="c-remain"></i>남은 학생</span><span><i class="c-picked"></i>뽑힘</span><span><i class="c-excl"></i>빠짐</span>
+          <em>번호를 누르면 빠짐 ↔ 남음, 뽑힌 번호는 다시 남음으로</em>
+        </div>
+        <div class="pk-grid" id="pkGrid"></div>
+
+        <h3>뽑힌 기록 <button type="button" id="pkResetPicked">기록 초기화</button></h3>
+        <div id="pkHist"></div>
+
+        <div class="pk-file">
+          <button class="btn" id="pkSave" type="button">💾 반 파일로 저장</button>
+          <button class="btn" id="pkOpen" type="button">📂 반 파일 불러오기</button>
+          <input type="file" id="pkFile" accept=".json,application/json" hidden>
+          <button class="btn pk-del" id="pkDelClass" type="button">반 삭제</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
 <!-- ======================= 현재 시간 ======================= -->
 <main class="page" id="page-clock">
   <div class="wrap">
@@ -368,7 +483,7 @@ function beep(freq, dur, type, gain){
   o.start(); o.stop(audio.currentTime + dur);
 }
 
-const PAGES = ['roulette','timer','clock'];
+const PAGES = ['roulette','timer','picker','clock'];
 function showPage(name){
   if(!PAGES.includes(name)) name = 'roulette';
   PAGES.forEach(p => $('#page-'+p).classList.toggle('active', p === name));
@@ -1076,6 +1191,285 @@ const Clock = (function(){
 })();
 
 /* =========================================================
+   4) 랜덤 학생 뽑기
+   ========================================================= */
+const Picker = (function(){
+  const LS_KEY = 'classtools.picker.v1';
+  const sel = $('#pkClass'), stat = $('#pkStat'), result = $('#pkResult'), msg = $('#pkMsg');
+  const gradeIn = $('#pkGrade'), clsIn = $('#pkCls'), lastIn = $('#pkLast');
+  const exIn = $('#pkExcl'), grid = $('#pkGrid'), hist = $('#pkHist'), cfg = $('#pkCfg');
+  const oneBtn = $('#pkOne'), manyBtn = $('#pkMany'), countIn = $('#pkCount'), undoBtn = $('#pkUndo');
+
+  // store = { cur: '2-3', classes: { '2-3': {grade, cls, last, excluded:[n], picked:[{n, t, b}] } } }
+  let store = { cur: null, classes: {} };
+  let memoryOnly = false, busy = false, fresh = [];
+  try{ const v = JSON.parse(localStorage.getItem(LS_KEY)); if(v && v.classes) store = v; }catch(e){ memoryOnly = true; }
+
+  const pad2 = n => String(n).padStart(2,'0');
+  const idOf = (g, c) => `${g}-${c}`;
+  const nameOf = k => `${k.grade}학년 ${k.cls}반`;
+  const hakbun = (k, n) => `${k.grade}${pad2(k.cls)}${pad2(n)}`;
+  function cur(){ return store.cur && store.classes[store.cur] || null; }
+  function save(){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(store)); memoryOnly = false; }
+    catch(e){ memoryOnly = true; }
+  }
+  function rand(n){            // 0 ~ n-1 균등 난수
+    if(window.crypto && crypto.getRandomValues){
+      const a = new Uint32Array(1), lim = Math.floor(0x100000000 / n) * n;
+      do{ crypto.getRandomValues(a); }while(a[0] >= lim);
+      return a[0] % n;
+    }
+    return Math.floor(Math.random() * n);
+  }
+  function pool(k){
+    const ex = new Set(k.excluded), pk = new Set(k.picked.map(p => p.n)), out = [];
+    for(let n = 1; n <= k.last; n++) if(!ex.has(n) && !pk.has(n)) out.push(n);
+    return out;
+  }
+  // "3, 7, 10-12" → [3,7,10,11,12]
+  function parseRange(text, last){
+    const set = new Set();
+    String(text).split(/[,\s]+/).forEach(tok => {
+      const m = tok.match(/^(\d+)(?:[-~](\d+))?$/); if(!m) return;
+      let a = +m[1], b = m[2] ? +m[2] : a; if(a > b) [a,b] = [b,a];
+      for(let n = a; n <= b && n <= last; n++) if(n >= 1) set.add(n);
+    });
+    return [...set].sort((x,y) => x-y);
+  }
+  // [3,7,10,11,12] → "3, 7, 10-12"
+  function toRange(arr){
+    const a = [...arr].sort((x,y) => x-y), out = [];
+    for(let i = 0; i < a.length; i++){
+      let j = i; while(j+1 < a.length && a[j+1] === a[j]+1) j++;
+      out.push(j - i >= 2 ? `${a[i]}-${a[j]}` : (j > i ? `${a[i]}, ${a[j]}` : `${a[i]}`));
+      i = j;
+    }
+    return out.join(', ');
+  }
+  function say(t){ msg.textContent = t || ''; }
+
+  /* ---------- 화면 ---------- */
+  function renderSelect(){
+    const ids = Object.keys(store.classes).sort((a,b) => {
+      const A = store.classes[a], B = store.classes[b]; return A.grade - B.grade || A.cls - B.cls;
+    });
+    sel.innerHTML = ids.length
+      ? ids.map(id => `<option value="${id}"${id === store.cur ? ' selected' : ''}>${nameOf(store.classes[id])}</option>`).join('')
+      : '<option value="">반을 먼저 만드세요</option>';
+    sel.disabled = !ids.length;
+  }
+  function renderAll(){
+    renderSelect();
+    const k = cur();
+    cfg.style.display = k ? '' : 'none';
+    oneBtn.disabled = manyBtn.disabled = !k;
+    if(!k){
+      stat.textContent = '';
+      result.innerHTML = '<div class="pk-ph">오른쪽에서 학년·반·마지막 번호를 넣고 <b>저장</b>을 누르세요.<br>반마다 따로 저장되어 다음 날에도 이어서 뽑을 수 있습니다.</div>';
+      undoBtn.disabled = true; return;
+    }
+    gradeIn.value = k.grade; clsIn.value = k.cls; lastIn.value = k.last;
+    exIn.value = toRange(k.excluded);
+    const left = pool(k).length;
+    stat.innerHTML = `남은 학생 <b>${left}</b>명 · 전체 ${k.last}명 (뽑힘 ${k.picked.length} · 빠짐 ${k.excluded.length})` + (memoryOnly ? ' · <span style="color:#b45309">이 브라우저는 저장이 꺼져 있어 파일로 저장하세요</span>' : '');
+    undoBtn.disabled = !k.picked.length;
+    renderGrid(k); renderHist(k);
+    if(!result.dataset.shown) result.innerHTML = `<div class="pk-ph">${nameOf(k)}<br>버튼을 누르면 남은 학생 중에서 바로 뽑습니다</div>`;
+  }
+  function renderGrid(k){
+    const ex = new Set(k.excluded), pk = new Set(k.picked.map(p => p.n)), fr = new Set(fresh);
+    let h = '';
+    for(let n = 1; n <= k.last; n++){
+      const c = ex.has(n) ? 'excl' : pk.has(n) ? 'picked' : '';
+      const tip = ex.has(n) ? '빠짐 (누르면 다시 포함)' : pk.has(n) ? '뽑힘 (누르면 다시 뽑기 대상으로)' : '누르면 빠짐';
+      h += `<button type="button" data-n="${n}" class="${c}${fr.has(n) ? ' fresh' : ''}" title="${hakbun(k,n)} · ${tip}">${n}</button>`;
+    }
+    grid.innerHTML = h;
+  }
+  function renderHist(k){
+    if(!k.picked.length){ hist.innerHTML = '<div class="empty">아직 뽑힌 학생이 없습니다</div>'; return; }
+    const days = new Map(), D = ['일','월','화','수','목','금','토'];
+    [...k.picked].sort((a,b) => b.t - a.t).forEach(p => {
+      const d = new Date(p.t), key = `${d.getMonth()+1}/${d.getDate()}(${D[d.getDay()]})`;
+      if(!days.has(key)) days.set(key, []);
+      days.get(key).push(p);
+    });
+    hist.innerHTML = [...days].map(([day, arr]) =>
+      `<div class="pk-day"><b>${day} · ${arr.length}명</b>${arr.slice().reverse().map(p => `<span title="${p.n}번">${hakbun(k,p.n)}</span>`).join('')}</div>`).join('');
+  }
+  function showResult(k, nums){
+    result.dataset.shown = '1';
+    if(nums.length === 1){
+      result.innerHTML = `<div class="pk-one"><div class="no">${hakbun(k,nums[0])}</div><div class="sub">${nameOf(k)} ${nums[0]}번</div></div>`;
+    }else{
+      result.innerHTML = `<div class="pk-list">${nums.map((n,i) =>
+        `<div class="pk-item"><span class="ord">${i+1}</span><span class="no">${hakbun(k,n)}</span><span class="sub">${n}번</span></div>`).join('')}</div>`;
+    }
+  }
+
+  /* ---------- 뽑기 ---------- */
+  function pick(count){
+    const k = cur(); if(!k || busy) return;
+    const p = pool(k);
+    if(!p.length){
+      say('남은 학생이 없습니다. "기록 초기화"를 누르면 처음부터 다시 뽑을 수 있습니다.'); return;
+    }
+    count = Math.max(1, Math.min(count|0 || 1, 99));
+    const n = Math.min(count, p.length);
+    // 부분 피셔-예이츠 셔플로 순서대로 n명
+    const a = p.slice();
+    for(let i = 0; i < n; i++){ const j = i + rand(a.length - i); [a[i], a[j]] = [a[j], a[i]]; }
+    const chosen = a.slice(0, n);
+    const t = Date.now(), b = t;
+    chosen.forEach((num, i) => k.picked.push({ n: num, t: t + i, b }));
+    save();
+    fresh = chosen;
+    say(count > p.length ? `남은 학생이 ${p.length}명이라 ${p.length}명만 뽑았습니다.` : '');
+    ensureAudio();
+    // 짧은 연출(0.5초) 후 결과
+    busy = true; oneBtn.disabled = manyBtn.disabled = true;
+    const t0 = performance.now();
+    result.dataset.shown = '1';
+    result.innerHTML = '<div class="pk-one flick"><div class="no">-----</div><div class="sub">&nbsp;</div></div>';
+    const no = result.querySelector('.no');
+    const iv = setInterval(() => {
+      no.textContent = hakbun(k, p[rand(p.length)]);
+      beep(900 + rand(400), 0.025, 'square', 0.02);
+      if(performance.now() - t0 >= 500){
+        clearInterval(iv); busy = false;
+        showResult(k, chosen);
+        [784,1047].forEach((f,i) => setTimeout(() => beep(f,0.18,'triangle',0.1), i*90));
+        renderAll();
+      }
+    }, 50);
+  }
+  function undo(){
+    const k = cur(); if(!k || !k.picked.length || busy) return;
+    const lastB = Math.max(...k.picked.map(p => p.b));
+    const removed = k.picked.filter(p => p.b === lastB).map(p => p.n);
+    k.picked = k.picked.filter(p => p.b !== lastB);
+    save(); fresh = [];
+    delete result.dataset.shown;
+    say(`방금 뽑은 ${removed.map(n => hakbun(k,n)).join(', ')}을(를) 취소했습니다.`);
+    renderAll();
+  }
+
+  /* ---------- 반 관리 ---------- */
+  function createOrUpdate(){
+    const g = Math.max(1, Math.min(6, parseInt(gradeIn.value,10) || 1));
+    const c = Math.max(1, Math.min(99, parseInt(clsIn.value,10) || 1));
+    const last = Math.max(1, Math.min(99, parseInt(lastIn.value,10) || 0));
+    const id = idOf(g, c);
+    const k = store.classes[id];
+    if(k){
+      const changed = k.last !== last;
+      k.last = last;
+      k.excluded = k.excluded.filter(n => n <= last);
+      say(changed ? `${nameOf(k)} 마지막 번호를 ${last}번으로 바꿨습니다.` : `${nameOf(k)}을(를) 불러왔습니다.`);
+    }else{
+      store.classes[id] = { grade: g, cls: c, last, excluded: [], picked: [] };
+      say(`${g}학년 ${c}반을 만들었습니다.`);
+    }
+    store.cur = id; save(); fresh = []; delete result.dataset.shown; renderAll();
+  }
+  function applyExcl(){
+    const k = cur(); if(!k) return;
+    k.excluded = parseRange(exIn.value, k.last);
+    save(); renderAll();
+    say(k.excluded.length ? `빠지는 번호: ${toRange(k.excluded)}` : '빠지는 번호가 없습니다.');
+  }
+  grid.addEventListener('click', e => {
+    const b = e.target.closest('[data-n]'); const k = cur(); if(!b || !k || busy) return;
+    const n = +b.dataset.n;
+    if(k.picked.some(p => p.n === n)) k.picked = k.picked.filter(p => p.n !== n);   // 뽑힘 → 남음
+    else if(k.excluded.includes(n)) k.excluded = k.excluded.filter(x => x !== n);   // 빠짐 → 남음
+    else k.excluded = [...k.excluded, n].sort((x,y) => x-y);                         // 남음 → 빠짐
+    save(); renderAll();
+  });
+
+  // 두 번 눌러 확인하는 버튼
+  function armed(btn, label, armedLabel, action){
+    let t = 0;
+    btn.addEventListener('click', () => {
+      if(!cur()) return;
+      if(!t){
+        btn.textContent = armedLabel; btn.style.color = '#ef4444';
+        t = setTimeout(() => { t = 0; btn.textContent = label; btn.style.color = ''; }, 3000);
+        return;
+      }
+      clearTimeout(t); t = 0; btn.textContent = label; btn.style.color = '';
+      action();
+    });
+  }
+  armed($('#pkResetPicked'), '기록 초기화', '한 번 더 누르면 초기화', () => {
+    const k = cur(); k.picked = []; save(); fresh = []; delete result.dataset.shown;
+    say(`${nameOf(k)} 뽑힌 기록을 지웠습니다. 모든 학생이 다시 뽑기 대상입니다.`); renderAll();
+  });
+  armed($('#pkDelClass'), '반 삭제', '한 번 더 누르면 반 삭제', () => {
+    const k = cur(); delete store.classes[store.cur];
+    store.cur = Object.keys(store.classes)[0] || null;
+    save(); fresh = []; delete result.dataset.shown;
+    say(`${nameOf(k)}을(를) 삭제했습니다.`); renderAll();
+  });
+
+  /* ---------- 파일 저장 / 불러오기 ---------- */
+  $('#pkSave').addEventListener('click', () => {
+    const k = cur(); if(!k) return;
+    const data = { type: 'classtools-picker', version: 1, savedAt: new Date().toISOString(),
+                   grade: k.grade, cls: k.cls, last: k.last, excluded: k.excluded, picked: k.picked };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${k.grade}학년${k.cls}반_학생뽑기.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    say(`${a.download} 파일로 저장했습니다.`);
+  });
+  $('#pkOpen').addEventListener('click', () => $('#pkFile').click());
+  $('#pkFile').addEventListener('change', e => {
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try{
+        const d = JSON.parse(r.result);
+        const g = parseInt(d.grade,10), c = parseInt(d.cls,10), last = parseInt(d.last,10);
+        if(d.type !== 'classtools-picker' || !(g >= 1 && g <= 6) || !(c >= 1 && c <= 99) || !(last >= 1 && last <= 99)) throw 0;
+        const excluded = (Array.isArray(d.excluded) ? d.excluded : []).map(Number).filter(n => n >= 1 && n <= last);
+        const picked = (Array.isArray(d.picked) ? d.picked : [])
+          .map(p => ({ n: +p.n, t: +p.t || Date.now(), b: +p.b || +p.t || Date.now() }))
+          .filter(p => p.n >= 1 && p.n <= last);
+        const id = idOf(g, c);
+        store.classes[id] = { grade: g, cls: c, last, excluded: [...new Set(excluded)].sort((x,y) => x-y), picked };
+        store.cur = id; save(); fresh = []; delete result.dataset.shown;
+        say(`${g}학년 ${c}반 파일을 불러왔습니다. (뽑힘 ${picked.length}명)`);
+        renderAll();
+      }catch(err){ say('학생 뽑기 저장 파일이 아닙니다. "반 파일로 저장"으로 만든 파일을 골라 주세요.'); }
+      e.target.value = '';
+    };
+    r.readAsText(f);
+  });
+
+  /* ---------- 이벤트 ---------- */
+  sel.addEventListener('change', () => { store.cur = sel.value; save(); fresh = []; delete result.dataset.shown; say(''); renderAll(); });
+  $('#pkCreate').addEventListener('click', createOrUpdate);
+  [clsIn, lastIn].forEach(el => {
+    el.addEventListener('keydown', e => { if(e.key === 'Enter') createOrUpdate(); });
+    el.addEventListener('focus', () => el.select());
+  });
+  $('#pkExclApply').addEventListener('click', applyExcl);
+  exIn.addEventListener('keydown', e => { if(e.key === 'Enter') applyExcl(); });
+  oneBtn.addEventListener('click', () => pick(1));
+  manyBtn.addEventListener('click', () => pick(parseInt(countIn.value,10) || 1));
+  countIn.addEventListener('keydown', e => { if(e.key === 'Enter') pick(parseInt(countIn.value,10) || 1); });
+  countIn.addEventListener('focus', () => countIn.select());
+  undoBtn.addEventListener('click', undo);
+
+  renderAll();
+  return { pick, store: () => store };
+})();
+
+/* =========================================================
    키보드 단축키
    ========================================================= */
 document.addEventListener('keydown', e => {
@@ -1092,6 +1486,7 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
     if(page === 'roulette'){ Roulette.isModalOpen() ? Roulette.closeModal(false) : Roulette.spin(); }
     else if(page === 'timer') Timer.toggle();
+    else if(page === 'picker') Picker.pick(1);
   }
   if(page === 'timer'){
     if(e.key === 'r' || e.key === 'R') Timer.reset();
@@ -1099,7 +1494,8 @@ document.addEventListener('keydown', e => {
   }
   if(e.key === '1') showPage('roulette');
   if(e.key === '2') showPage('timer');
-  if(e.key === '3') showPage('clock');
+  if(e.key === '3') showPage('picker');
+  if(e.key === '4') showPage('clock');
 });
 
 /* 시작 페이지 */
