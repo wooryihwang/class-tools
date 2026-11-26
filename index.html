@@ -126,6 +126,48 @@
   .timer-opts label{display:flex;align-items:center;gap:6px;cursor:pointer}
   .timer-opts input{accent-color:var(--accent);width:16px;height:16px}
 
+  /* ---------- 추가 시간 ---------- */
+  .extra-card{margin-top:20px}
+  .extra-card h2{font-size:18px;margin:0 0 14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .extra-card h2 span{font-size:13px;color:var(--sub);font-weight:500}
+  .extra-form{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .extra-form input{padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:17px;font-family:inherit}
+  .extra-form input:focus{outline:2px solid var(--accent);border-color:transparent}
+  #exName{flex:1 1 180px;min-width:0}
+  .ex-time{display:flex;align-items:center;gap:6px}
+  .ex-time input{width:72px;text-align:center;font-variant-numeric:tabular-nums}
+  .ex-time span{color:var(--sub);font-size:15px}
+  .extra-form .btn{padding:11px 18px}
+  .ex-head,.ex-row{display:grid;grid-template-columns:minmax(0,1fr) 150px 160px 40px;align-items:center;gap:10px}
+  .ex-head{margin-top:18px;padding:0 12px 6px;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line)}
+  .ex-head .r{text-align:right}
+  #exList{display:flex;flex-direction:column}
+  .ex-row{padding:10px 12px;border-bottom:1px solid var(--line)}
+  .ex-name{font-size:22px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ex-plus{display:flex;align-items:center;gap:6px;font-size:16px;color:var(--blue);font-weight:700;font-variant-numeric:tabular-nums}
+  .ex-plus button{border:1px solid var(--line);background:#fff;border-radius:6px;font-size:12px;padding:3px 6px;cursor:pointer;color:var(--sub);font-weight:600}
+  .ex-plus button:hover{background:#f3f4f6}
+  .ex-left{text-align:right;font-size:34px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+  .ex-row.warn .ex-left{color:#f59e0b}
+  .ex-row.done .ex-left{color:var(--danger);font-size:24px}
+  .ex-row.done .ex-name{color:var(--sub)}
+  .ex-del{border:none;background:transparent;color:var(--sub);font-size:20px;cursor:pointer;border-radius:8px;width:34px;height:34px}
+  .ex-del:hover{background:#fee2e2;color:var(--danger)}
+  .ex-foot{text-align:right;margin-top:8px}
+  .ex-foot button{border:none;background:none;color:var(--sub);font-size:13px;cursor:pointer}
+  #exEmpty{margin-top:14px}
+  @media (max-width:600px){
+    .ex-head,.ex-row{grid-template-columns:minmax(0,1fr) 92px 100px 34px;gap:6px}
+    .ex-plus{flex-direction:column;align-items:flex-start;gap:2px;font-size:14px}
+    .ex-left{font-size:26px}
+    .ex-name{font-size:18px}
+  }
+  body.focus #page-timer.has-extra .timer-card{min-height:auto;padding:16px}
+  body.focus #page-timer.has-extra .tdisplay{font-size:clamp(70px,16vw,220px)}
+  body.focus .extra-card .extra-form,body.focus .extra-card h2 span{display:none}
+  body.focus .ex-left{font-size:48px}
+  body.focus .ex-name{font-size:30px}
+
   /* ---------- 현재 시간 ---------- */
   .clock-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px 20px;text-align:center}
   .clock-date{font-size:clamp(18px,3vw,28px);color:var(--sub);font-weight:600}
@@ -249,6 +291,27 @@
         <div class="lap-wrap"><table id="lapTable"></table></div>
       </div>
       <div class="hint">스페이스바: 시작/일시정지 · R: 초기화</div>
+    </section>
+
+    <!-- 추가 시간(학생별) -->
+    <section class="card extra-card" id="extraCard">
+      <h2>⏳ 추가 시간 <span>컴퓨터 문제 등으로 시간이 더 필요한 학생</span></h2>
+      <div class="extra-form">
+        <input type="text" id="exName" placeholder="번호 또는 이름" maxlength="20" autocomplete="off">
+        <div class="ex-time">
+          <input type="number" id="exMin" min="0" max="180" value="5"><span>분</span>
+          <input type="number" id="exSec" min="0" max="59" value="0"><span>초</span>
+        </div>
+        <button class="btn primary" id="exAdd" type="button">＋ 추가 시간 기록</button>
+      </div>
+      <div class="ex-head" id="exHead" style="display:none">
+        <span>학생</span><span>추가 시간</span><span class="r">남은 시간</span><span></span>
+      </div>
+      <div id="exList"></div>
+      <div class="empty" id="exEmpty">추가 시간을 받은 학생이 없습니다</div>
+      <div class="ex-foot" id="exFoot" style="display:none">
+        <button type="button" id="exClear">목록 모두 지우기</button>
+      </div>
     </section>
   </div>
 </main>
@@ -609,6 +672,8 @@ const Timer = (function(){
   let remain = total;         // 남은 시간(ms)
   let elapsed = 0;            // 스톱워치 경과(ms)
   let startAt = 0, raf = 0, alarmTimer = 0, lastTickSec = -1, laps = [];
+  // 전체 시간이 끝난 뒤 추가 시간 진행(초과 시간) 상태
+  let otRunning = false, otStartAt = 0, otElapsed = 0;
 
   try{ const t = parseInt(localStorage.getItem('classtools.timer.total'),10); if(t > 0){ total = t; remain = t; } }catch(e){}
   syncInputs();
@@ -682,14 +747,22 @@ const Timer = (function(){
   function reset(){
     running = false; done = false; cancelAnimationFrame(raf); clearInterval(alarmTimer);
     remain = total; elapsed = 0; laps = []; renderLaps();
+    otRunning = false; otElapsed = 0;
     startBtn.textContent = '▶ 시작'; startBtn.classList.add('primary'); startBtn.classList.remove('danger');
     if(mode === 'down'){ setter.style.display = ''; presets.style.display = ''; }
     render();
+    if(window.Extra) Extra.onReset();
   }
   function finish(){
     running = false; done = true; remain = 0; cancelAnimationFrame(raf);
-    startBtn.textContent = '▶ 다시 시작'; startBtn.classList.add('primary'); startBtn.classList.remove('danger');
-    setter.style.display = ''; presets.style.display = '';
+    otElapsed = 0; otStartAt = performance.now();
+    otRunning = !!(window.Extra && Extra.anyLeft());   // 추가 시간 학생이 있으면 계속 진행
+    if(otRunning){
+      startBtn.textContent = '⏸ 추가 시간 일시정지'; startBtn.classList.remove('primary'); startBtn.classList.add('danger');
+    }else{
+      startBtn.textContent = '▶ 다시 시작'; startBtn.classList.add('primary'); startBtn.classList.remove('danger');
+      setter.style.display = ''; presets.style.display = '';
+    }
     render();
     if($('#tAlarm').checked){
       let count = 0;
@@ -723,11 +796,12 @@ const Timer = (function(){
     lapBtn.style.display = isDown ? 'none' : '';
     $('#tTick').parentElement.style.display = isDown ? '' : 'none';
     $('#tAlarm').parentElement.style.display = isDown ? '' : 'none';
+    $('#extraCard').style.display = isDown ? '' : 'none';
     render();
   }
 
   $$('[data-tmode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.tmode)));
-  startBtn.addEventListener('click', () => running ? pause() : start());
+  startBtn.addEventListener('click', () => toggle());
   resetBtn.addEventListener('click', reset);
   lapBtn.addEventListener('click', lap);
   [inH,inM,inS].forEach(el => {
@@ -742,8 +816,151 @@ const Timer = (function(){
     syncInputs(); render();
   });
 
+  // 기준 남은 시간(ms): 전체 진행 중이면 남은 시간, 끝난 뒤에는 초과 경과만큼 음수
+  function baseMs(){
+    if(mode !== 'down') return null;
+    const now = performance.now();
+    if(done) return -(otElapsed + (otRunning ? now - otStartAt : 0));
+    return running ? remain - (now - startAt) : remain;
+  }
+  function toggleOvertime(){
+    const now = performance.now();
+    if(otRunning){
+      otElapsed += now - otStartAt; otRunning = false;
+      startBtn.textContent = '▶ 추가 시간 계속'; startBtn.classList.add('primary'); startBtn.classList.remove('danger');
+    }else{
+      ensureAudio();
+      otStartAt = now; otRunning = true;
+      startBtn.textContent = '⏸ 추가 시간 일시정지'; startBtn.classList.remove('primary'); startBtn.classList.add('danger');
+    }
+  }
+  // 모든 추가 시간 학생이 끝나면 호출
+  function overtimeEnded(){
+    if(!done) return;
+    if(otRunning){ otElapsed += performance.now() - otStartAt; otRunning = false; }
+    startBtn.textContent = '▶ 다시 시작'; startBtn.classList.add('primary'); startBtn.classList.remove('danger');
+    setter.style.display = ''; presets.style.display = '';
+  }
+  // 전체가 끝난 뒤 추가 시간이 생기면(종료 후에 학생 추가) 초과 시간 진행 시작
+  function overtimeMaybeStart(){
+    if(done && !otRunning && window.Extra && Extra.anyLeft() && startBtn.textContent.indexOf('다시 시작') >= 0){
+      toggleOvertime(); setter.style.display = 'none'; presets.style.display = 'none';
+    }
+  }
+  function toggle(){
+    if(mode === 'down' && done && window.Extra && Extra.anyLeft()){ toggleOvertime(); return; }
+    running ? pause() : start();
+  }
   render();
-  return { toggle: () => running ? pause() : start(), reset, lap, isRunning: () => running };
+  return { toggle, reset, lap, isRunning: () => running, baseMs, isDone: () => done,
+           isActive: () => running || otRunning, overtimeEnded, overtimeMaybeStart, mode: () => mode };
+})();
+
+/* =========================================================
+   2-1) 추가 시간(학생별)
+   ========================================================= */
+const Extra = (function(){
+  const nameIn = $('#exName'), minIn = $('#exMin'), secIn = $('#exSec');
+  const listEl = $('#exList'), head = $('#exHead'), empty = $('#exEmpty'), foot = $('#exFoot');
+  const page = $('#page-timer');
+  let list = [];   // {id, name, extra(ms), ended}
+  let seq = 0;
+
+  const pad = n => String(n).padStart(2,'0');
+  function fmt(ms){
+    const s = Math.max(0, Math.ceil(ms/1000));
+    const h = Math.floor(s/3600), m = Math.floor(s%3600/60), sec = s%60;
+    return (h > 0 ? h+':'+pad(m) : pad(m)) + ':' + pad(sec);
+  }
+  function fmtPlus(ms){
+    const s = Math.round(ms/1000), m = Math.floor(s/60), sec = s%60;
+    if(!m) return `+${sec}초`;
+    return sec ? `+${m}분 ${sec}초` : `+${m}분`;
+  }
+  function esc(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function leftOf(item){ const b = Timer.baseMs(); return b === null ? 0 : b + item.extra; }
+
+  function add(){
+    const name = nameIn.value.trim();
+    const m = Math.max(0, parseInt(minIn.value,10) || 0);
+    const s = Math.min(59, Math.max(0, parseInt(secIn.value,10) || 0));
+    const ms = (m*60 + s)*1000;
+    if(!name){ nameIn.focus(); nameIn.placeholder = '번호 또는 이름을 입력하세요'; return; }
+    if(ms <= 0){ minIn.focus(); return; }
+    const same = list.find(x => x.name === name);
+    if(same){ same.extra += ms; same.ended = leftOf(same) <= 0; }   // 같은 학생이면 누적
+    else list.push({ id: ++seq, name, extra: ms, ended: false });
+    nameIn.value = ''; nameIn.placeholder = '번호 또는 이름'; nameIn.focus();
+    build(); Timer.overtimeMaybeStart(); tick();
+  }
+  function build(){
+    listEl.innerHTML = list.map(x => `
+      <div class="ex-row" data-id="${x.id}">
+        <span class="ex-name" title="${esc(x.name)}">${esc(x.name)}</span>
+        <span class="ex-plus"><b>${fmtPlus(x.extra)}</b><button type="button" data-act="plus" title="1분 더 주기">+1분</button></span>
+        <span class="ex-left">--:--</span>
+        <button class="ex-del" type="button" data-act="del" title="삭제">×</button>
+      </div>`).join('');
+    const has = list.length > 0;
+    head.style.display = has ? '' : 'none';
+    foot.style.display = has ? '' : 'none';
+    empty.style.display = has ? 'none' : '';
+    page.classList.toggle('has-extra', has);
+  }
+  function tick(){
+    if(!list.length) return;
+    const isDone = Timer.isDone();
+    let ringNow = false;
+    listEl.querySelectorAll('.ex-row').forEach(row => {
+      const item = list.find(x => x.id === +row.dataset.id); if(!item) return;
+      const left = leftOf(item);
+      const leftEl = row.querySelector('.ex-left');
+      if(left <= 0){
+        if(!item.ended && isDone){ item.ended = true; ringNow = true; }
+        row.classList.add('done'); row.classList.remove('warn');
+        leftEl.textContent = '종료';
+      }else{
+        item.ended = false;
+        row.classList.remove('done');
+        row.classList.toggle('warn', isDone && left <= 60000);
+        leftEl.textContent = fmt(left);
+      }
+    });
+    if(ringNow && $('#tAlarm').checked){ [988,1318].forEach((f,i) => setTimeout(() => beep(f,0.22,'square',0.16), i*140)); }
+    if(isDone && !anyLeft()) Timer.overtimeEnded();
+  }
+  function anyLeft(){ return list.some(x => leftOf(x) > 0); }
+  function onReset(){ list.forEach(x => x.ended = false); tick(); }
+
+  listEl.addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]'); if(!btn) return;
+    const id = +btn.closest('.ex-row').dataset.id;
+    const i = list.findIndex(x => x.id === id); if(i < 0) return;
+    if(btn.dataset.act === 'del') list.splice(i,1);
+    else { list[i].extra += 60000; }
+    build(); Timer.overtimeMaybeStart(); tick();
+  });
+  $('#exAdd').addEventListener('click', add);
+  [nameIn, minIn, secIn].forEach(el => el.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); add(); } }));
+  [minIn, secIn].forEach(el => el.addEventListener('focus', () => el.select()));
+  let clearArmed = 0;
+  $('#exClear').addEventListener('click', () => {
+    const b = $('#exClear');
+    if(!clearArmed){
+      b.textContent = '한 번 더 누르면 모두 삭제'; b.style.color = '#ef4444';
+      clearArmed = setTimeout(() => { clearArmed = 0; b.textContent = '목록 모두 지우기'; b.style.color = ''; }, 3000);
+      return;
+    }
+    clearTimeout(clearArmed); clearArmed = 0; b.textContent = '목록 모두 지우기'; b.style.color = '';
+    list = []; build(); tick();
+    if(Timer.isDone()) Timer.overtimeEnded();
+  });
+
+  setInterval(tick, 200);
+  build();
+  const api = { anyLeft, onReset, tick, list: () => list };
+  window.Extra = api;   // 타이머 쪽에서 window.Extra 로 확인
+  return api;
 })();
 
 /* =========================================================
